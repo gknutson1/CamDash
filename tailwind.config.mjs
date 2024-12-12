@@ -7,6 +7,6 @@ export default {
 	plugins: [require("daisyui")],
 	// Daisy UI settings
 	daisyui: {
-		themes: [""],
+		themes: ["dark"],
 	},
 }
