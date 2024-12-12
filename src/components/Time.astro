@@ -2,6 +2,15 @@
 
 ---
 
+<section class="time" style="grid-column: 2; grid-row: 1">
+    <h1>Time</h1>
+    <time>
+        <data class="hours">HH</data> : <data class="minutes">MM</data> :
+        <data class="seconds">SS</data>
+        <data class="amOrPM">AM/PM</data>
+    </time>
+    <section>
+
 <script>
 /************
 Dynamic Data
@@ -32,7 +41,7 @@ const theClockApp = () => {
   // Get 12 hour format
   gotHours = gotHours % 12 || 12;
   // Optionally, append zero to single digit hours
-  gotHours = gotHours < 10 ? `0${gotHours}` : gotHours;   
+  gotHours = gotHours < 10 ? `0${gotHours}` : gotHours;
   // Optionally, append zero to single digit minutes
   gotMinutes = gotMinutes < 10 ? `0${gotMinutes}` : gotMinutes;
   // Optionally, append zero to single digit seconds
@@ -70,12 +79,3 @@ const theClockApp = () => {
   // Re-run `theClockApp` every 1 second (1000 ms)
   setInterval(theClockApp, 1000);
 </script>
-
-<section class="time">
-    <h1>Time</h1>
-    <time>
-      <data class="hours">HH</data> : <data class="minutes">MM</data> :
-      <data class="seconds">SS</data>
-      <data class="amOrPM">AM/PM</data>
-    </time>
-<section>
