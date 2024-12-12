@@ -1,53 +1,64 @@
 ---
 ---
 
+<section class="weather" style="grid-row: 2; grid-column: 1 / 2; align-items: center">
+      <h1>Weather</h1>
+      <data class="city">City</data>
+      <data class="temp">Temp</data>
+      <img class="icon"
+           src="https://via.placeholder.com/150" alt="Placeholder">
+</section>
+
 <script>
 // Get API key from server side .ENV file
 const APIKEY = import.meta.env.PUBLIC_WEATHER_API;
 
 // API endpoint URL
 const queryEndpoint = 'https://api.openweathermap.org/data/2.5/weather';
-// City
-const queryCity = 'Cheney';
-// Units for Farenheit
-const queryUnits = 'imperial';
-
-// URL query string
-const url = `${queryEndpoint}?q=${queryCity}&appid=${APIKEY}&units=${queryUnits}`;
 
 // Get DOM Elements
 const city = document.querySelector('.city');
 const temp = document.querySelector('.temp');
 const icon = document.querySelector('.icon');
-
 // Using fetch to get data
-fetch(url)
-.then( response => response.json() )
-.then( data => {
 
-  // Check-check: Is data good? 
-  console.log( data );
-  
-  // Get Container for Weather   
-  const weatherContainer = document.querySelector('.weather');
-    
-    // Set DOM Elements
-    city.textContent = data.name; 
-    temp.textContent = data.main.temp;
-
-    icon.setAttribute('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`)
-  
+console.log("Getting geolocation data")
+navigator.geolocation.getCurrentPosition(getWeather, err =>
+{
+      // If our geolocation fails for whatever reason, fall back on
+      console.log(err);
+      getWeather({ coords: {latitude: 47.650206, longitude: -118.158366}});
 });
+
+function getWeather(pos: { coords: { latitude: number; longitude: number } }){
+      const params = new URLSearchParams({
+            "lat": String(pos.coords.latitude),
+            "lon": String(pos.coords.longitude),
+            "appid": APIKEY,
+            "units": "imperial"
+      })
+
+      const url = queryEndpoint + '?' + params.toString()
+
+      console.log(url)
+
+      fetch(url)
+          .then( response => response.json() )
+          .then( parseData );
+}
+
+function parseData(data: any) {
+
+      // Check-check: Is data good?
+      console.log(data);
+
+      // Get Container for Weather
+      const weatherContainer = document.querySelector('.weather');
+
+      // Set DOM Elements
+      city.textContent = data.name;
+      temp.textContent = data.main.temp;
+
+      icon.setAttribute('src', `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`)
+}
 </script>
-
-
-<!-- Weather -->
-<section class="weather">
-
-      <h1>Weather</h1>
-      <data class="city">City</data>
-      <data class="temp">Temp</data>
-      <img class="icon" 
-      src="https://via.placeholder.com/150" alt="Placeholder">
-      
-</section>
