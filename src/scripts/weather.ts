@@ -4,26 +4,24 @@ const APIKEY = import.meta.env.PUBLIC_WEATHER_API;
 // API endpoint URL
 const api = 'https://api.openweathermap.org/data/2.5';
 
-async function getWeatherCurrentPosition(endpoint: string, processor) {
-    console.log("Getting geolocation data")
+let coords: Promise<{ latitude: number; longitude: number }> = new Promise(resolve => {
+    navigator.geolocation.getCurrentPosition(
+        // Return our coords
+        data => resolve(data.coords),
+        // If we can't get our coordinates, default to Davenport, Washington
+        error => {
+            console.log(error)
+            resolve({ latitude: 47.650206, longitude: -118.158366})
+        }
+    )
+})
 
-    function onSuccess(data: GeolocationPosition) {
-        return getWeather(endpoint, data, processor)
-    }
+async function getWeather(endpoint: string, processor: (value: any) => any) {
+    const data = await coords
 
-    function onError(error: GeolocationPositionError) {
-        // If our geolocation fails for whatever reason, fall back on hardcoded coordinates
-        console.error(error);
-        return getWeather(endpoint, { coords: {latitude: 47.650206, longitude: -118.158366}}, processor);
-    }
-
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
-
-async function getWeather(endpoint: string, pos: { coords: { latitude: number; longitude: number } }, processor: (value: any) => any) {
     const params = new URLSearchParams({
-        "lat": String(pos.coords.latitude),
-        "lon": String(pos.coords.longitude),
+        "lat": String(data.latitude),
+        "lon": String(data.longitude),
         "appid": APIKEY,
         "units": "imperial"
     })
@@ -32,11 +30,13 @@ async function getWeather(endpoint: string, pos: { coords: { latitude: number; l
 
     console.log(url)
 
-    return fetch(url).then(res => res.json(), console.error).then(processor, console.error)
+    return fetch(url)
+        .then(res => res.json(), console.error)
+        .then(processor, console.error)
 }
 
 function genOverview() {
-    getWeatherCurrentPosition(api + "/weather", parseOverview)
+    getWeather(api + "/weather", parseOverview)
 }
 
 function parseOverview(data: any) {
@@ -57,4 +57,10 @@ function parseOverview(data: any) {
     icon.setAttribute('src', `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`)
 }
 
-export { genOverview }
+function genForecast() {
+    getWeather(api + "/forecast", parseForecast)
+}
+
+function parseForecast(data: any) {}
+
+export { genOverview, genForecast }
