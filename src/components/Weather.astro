@@ -1,12 +1,21 @@
 ---
 ---
 
-<section class="weather" style="grid-row: 2; grid-column: 1 / 2; align-items: center">
-      <h1>Weather</h1>
-      <data class="city">City</data>
-      <data class="temp">Temp</data>
-      <img class="icon"
-           src="https://via.placeholder.com/150" alt="Placeholder">
+<section class="weather" style="grid-row: 2; grid-column: 1 / 2">
+
+      <!--Loading placeholder while we wait for weather data to be available-->
+      <div id="weather-loader">
+            <span class="loading loading-spinner loading-lg"></span>
+            <p id="weather-status">Determining location</p>
+      </div>
+
+      <!--Actual container for weather data-->
+      <div id="weather-data" hidden>
+            <h1>Weather</h1>
+            <data class="city">City</data>
+            <data class="temp">Temp</data>
+            <img class="icon" src="https://via.placeholder.com/150" alt="Placeholder"/>
+      </div>
 </section>
 
 <script>
