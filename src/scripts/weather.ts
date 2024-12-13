@@ -1,3 +1,6 @@
+import type {WeatherOverview} from "./weather-overview.ts";
+import type {WeatherForcast} from "./weather-forecast.ts";
+
 // Get API key from server side .ENV file
 const APIKEY = import.meta.env.PUBLIC_WEATHER_API;
 
@@ -65,7 +68,7 @@ function genOverview() {
     getWeather(api + "/weather", parseOverview)
 }
 
-function parseOverview(data: any) {
+function parseOverview(data: WeatherOverview) {
 
     // Check-check: Is data good?
     console.log(data);
@@ -78,7 +81,7 @@ function parseOverview(data: any) {
 
     // Set DOM Elements
     city.textContent = data.name;
-    temp.textContent = data.main.temp;
+    temp.textContent = String(data.main.temp);
 
     icon.setAttribute('src', `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`)
 
