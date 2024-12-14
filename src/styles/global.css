@@ -10,3 +10,31 @@
     display: grid;
     gap: 1em;
 }
+
+.forecast-box, #weather-data {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.current {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+img {
+    width: min-content;
+    margin: auto;
+}
+
+.weather {
+    width: calc(100vw - 2em)
+}
+
+.temp{
+
+}
+
+.forecast-box {
+    overflow-x: auto;
+    width: max-content;
+}

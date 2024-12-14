@@ -73,17 +73,17 @@ function parseOverview(data: WeatherOverview) {
     // Check-check: Is data good?
     console.log(data);
 
-    // Get Container for Weather
-    const weatherContainer = document.querySelector('.weather');
     const city = document.querySelector('.city');
+    city.setAttribute("data", String(data.id))
+    city.textContent = data.name
+
     const temp = document.querySelector('.temp');
+    temp.setAttribute("data", String(data.main.temp))
+    temp.textContent = data.main.temp + "℉"
+
     const icon = document.querySelector('.icon');
-
-    // Set DOM Elements
-    city.textContent = data.name;
-    temp.textContent = String(data.main.temp);
-
     icon.setAttribute('src', `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`)
+    icon.setAttribute('alt', data.weather[0].description)
 
     // Remove the loading placeholder and unhide the weather template
     document.querySelector('#weather-loader').remove()
