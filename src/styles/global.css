@@ -11,14 +11,39 @@
     gap: 1em;
 }
 
-.forecast-box, #weather-data {
-    display: flex;
-    flex-flow: row nowrap;
+.date-list {
+    justify-content: center;
+    width: 100%;
 }
 
-.current {
+.flex-row, .flex-col {
     display: flex;
-    flex-flow: column nowrap;
+    flex-wrap: nowrap;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    border-radius: 1em;
+    height: 3em;
+    width: 3em;
+    margin: 0 0.25em 1em 0.25em;
+}
+
+.box-text {
+    width: 100%;
+}
+
+.box-border {
+    border-width: 2px;
 }
 
 img {

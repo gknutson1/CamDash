@@ -1,13 +1,30 @@
 ---
-
+const allTheDays = [
+    "Su",
+    "M",
+    "Tu",
+    "W",
+    "Th",
+    "F",
+    "Sa"
+];
 ---
 
 <section class="date" style="grid-column: 1; grid-row: 1">
-    <h1>Date</h1>
+    <div class="date-list flex-row">
+        <div></div>
+        { allTheDays.map( day =>
+            <div class=`box box-border border-base-content ${day}`>
+                <div class="box-text">{day}</div>
+            </div>
+        )}
+        <div></div>
+    </div>
+
     <time>
         <data class="month">Month</data>
-        <data class="dayOfMonth">00</data>, <data class="year">0000</data> -
-        <data class="dayOfWeek">SMTWTFS</data>
+        <data class="dayOfMonth">00</data>,
+        <data class="year">0000</data>
     </time>
 </section>
 
@@ -31,13 +48,13 @@ const allTheMonths = [
   "December"
 ];
 const allTheDays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
+    "Su",
+    "M",
+    "Tu",
+    "W",
+    "Th",
+    "F",
+    "Sa"
 ];
 
 /************
@@ -69,7 +86,7 @@ const dayOfMonth = document.querySelector(".dayOfMonth");
 // Get year
 const year = document.querySelector('.year');
 // Get Day of Week
-const dayOfWeek = document.querySelector('.dayOfWeek');
+const dayOfWeek = document.querySelector(`.${allTheDays[gotDayOfWeek]}`);
 
 
 /************
@@ -78,9 +95,10 @@ Set DOM Elements
 // Set the month
 month.textContent = allTheMonths[gotMonth];
 // Set day of the month
-dayOfMonth.textContent = gotDayOfMonth;
+dayOfMonth.textContent = String(gotDayOfMonth);
 // Set the year
-year.textContent = gotYear;
+year.textContent = String(gotYear);
 // Set the day of the week
-dayOfWeek.textContent = allTheDays[gotDayOfWeek];
+dayOfWeek.classList.remove("border-base-content", "box-border")
+dayOfWeek.classList.add("bg-primary", "text-primary-content")
 </script>
