@@ -1,5 +1,5 @@
 import type {WeatherOverview} from "./weather-overview.ts";
-import type {WeatherForcast} from "./weather-forecast.ts";
+import type {WeatherForecast} from "./weather-forecast.ts";
 
 // Get API key from server side .ENV file
 const APIKEY = import.meta.env.PUBLIC_WEATHER_API;
@@ -48,6 +48,7 @@ coords.then(() => document.querySelector("#weather-status").textContent = "Downl
 async function getWeather(endpoint: string, processor: (value: any) => any) {
     const data = await coords
 
+    // Form url
     const params = new URLSearchParams({
         "lat": String(data.latitude),
         "lon": String(data.longitude),
@@ -59,20 +60,17 @@ async function getWeather(endpoint: string, processor: (value: any) => any) {
 
     console.log(url)
 
-    return fetch(url)
+    // Wait for processor to finish
+    await fetch(url)
         .then(res => res.json(), console.error)
         .then(processor, console.error)
 }
 
-function genOverview() {
-    getWeather(api + "/weather", parseOverview)
-}
-
 function parseOverview(data: WeatherOverview) {
-
     // Check-check: Is data good?
     console.log(data);
 
+    // Set all relevant html elements
     const city = document.querySelector('.city');
     city.setAttribute("data", String(data.id))
     city.textContent = data.name
@@ -85,15 +83,32 @@ function parseOverview(data: WeatherOverview) {
     icon.setAttribute('src', `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`)
     icon.setAttribute('alt', data.weather[0].description)
 
-    // Remove the loading placeholder and unhide the weather template
-    document.querySelector('#weather-loader').remove()
-    document.querySelector('#weather-data').removeAttribute("hidden")
+    const windSpeed = document.querySelector('.wind-speed')
+    windSpeed.textContent = String(data.wind.speed)
+    windSpeed.setAttribute("data", String(data.wind.speed))
+
+    // Rotate the arrow to indicate wind direction
+    const windDirection = document.querySelector('.wind-direction')
+    windDirection.setAttribute("style", `transform: rotate(${data.wind.deg}deg)`)
+    windDirection.setAttribute("data", String(data.wind.deg))
 }
 
 function genForecast() {
     getWeather(api + "/forecast", parseForecast)
 }
 
-function parseForecast(data: any) {}
+async function genWeather() {
+    // Start data gathering
+    const overview = getWeather(api + "/weather", parseOverview)
+    const forecast = getWeather(api + "/forecast", parseForecast)
 
-export { genOverview, genForecast }
+    // Wait for everything to finish up
+    await overview
+    await forecast
+
+    // Remove the loading placeholder and unhide the weather data
+    document.querySelector('#weather-loader').remove()
+    document.querySelector('#weather-data').removeAttribute("style")
+}
+
+export { genWeather }

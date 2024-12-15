@@ -10,10 +10,16 @@
       </div>
 
       <!--Actual container for weather data-->
-      <div id="weather-data" hidden>
-            <div class="current">
+      <div id="weather-data" class="flex-row" style="display: none">
+            <div class="flex-col">
                   <data class="city"/>
                   <data class="temp text-xl font-bold"/>
+                  <div class="flex-row">
+                        <div>≋</div>
+                        <data class="wind-speed"></data>
+                        <div class="text-xs">MPH</div>
+                        <data class="wind-direction">⮝</data>
+                  </div>
                   <img class="icon"/>
             </div>
             <div class="divider divider-horizontal"/>
@@ -24,6 +30,6 @@
 </section>
 
 <script>
-      import {genOverview} from "../scripts/weather";
-      genOverview()
+      import {genWeather} from "../scripts/weather";
+      genWeather()
 </script>

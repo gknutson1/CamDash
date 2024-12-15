@@ -51,8 +51,8 @@ img {
     margin: auto;
 }
 
-.weather {
-    width: calc(100vw - 2em)
+.wind {
+    justify-content: center;
 }
 
 .temp{

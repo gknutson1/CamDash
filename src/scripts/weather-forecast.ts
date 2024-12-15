@@ -1,14 +1,14 @@
 // Generated with https://transform.tools/json-to-typescript
 
-interface WeatherForcast {
+interface WeatherForecast {
     cod: string
     message: number
     cnt: number
-    list: List[]
+    list: Forecasts[]
     city: City
 }
 
-interface List {
+interface Forecasts {
     dt: number
     main: Main
     weather: Weather[]
@@ -63,4 +63,4 @@ interface Coord {
     lon: number
 }
 
-export type { WeatherForcast }
+export type { WeatherForecast }
