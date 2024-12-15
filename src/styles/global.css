@@ -55,11 +55,52 @@ img {
     justify-content: center;
 }
 
-.temp{
-
+.forecast-container {
+    width: 100%;
+    position: relative;
 }
 
 .forecast-box {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
     overflow-x: auto;
-    width: max-content;
+    max-width: 100%;
+    height: 100%;
+}
+
+.fc-element {
+    min-width: 6em;
+    --img-height: 50px;
+}
+
+.fc-bar {
+    position: relative;
+    z-index: 0;
+}
+
+.fc-bar-top {
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+    opacity: 0.2;
+}
+
+.rel-box {
+    position: relative;
+}
+
+.bar-box {
+    height: 100%;
+    width: 50%;
+    left: 25%;
+    border-radius: 1em;
+    overflow: hidden;
+}
+
+.fc-icon {
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    z-index: 1;
 }

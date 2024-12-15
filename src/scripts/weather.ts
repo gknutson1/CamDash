@@ -93,8 +93,66 @@ function parseOverview(data: WeatherOverview) {
     windDirection.setAttribute("data", String(data.wind.deg))
 }
 
-function genForecast() {
-    getWeather(api + "/forecast", parseForecast)
+const days = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+]
+
+function parseForecast(data: WeatherForecast) {
+    console.log(data)
+
+    let minTemp = Number.MAX_SAFE_INTEGER;
+    let maxTemp = Number.MIN_SAFE_INTEGER;
+
+    // Get max and min temperatures
+    data.list.forEach(forecast => {
+        if (forecast.main.temp < minTemp) {minTemp = forecast.main.temp}
+        if (forecast.main.temp > maxTemp) {maxTemp = forecast.main.temp}
+    })
+
+    const container = document.querySelector('.forecast-box')
+    const template = document.querySelector('.fc-element');
+
+    data.list.forEach(forecast => {
+        // @ts-ignore
+        const item: HTMLElement = template.cloneNode(true)
+
+        // Turn unix timestamp into the correct time format
+        const date = new Date(forecast.dt * 1000)
+        let hour: string;
+        if (date.getHours() > 12) { hour = String(date.getHours() - 12) + 'PM'; }
+        else { hour = String(date.getHours()) + "AM"; }
+
+        // Set time
+        const timeContent = item.querySelector('.fc-time')
+        timeContent.setAttribute('datetime', date.toISOString())
+        timeContent.textContent = `${days[date.getDay()]} ${hour}`
+
+        const temp = item.querySelector('.fc-temp');
+        temp.setAttribute('data', String(forecast.main.temp))
+        temp.textContent = String(forecast.main.temp) + "℉"
+
+        const icon = item.querySelector('.fc-icon');
+        icon.setAttribute('src', `https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`)
+        icon.setAttribute('alt', forecast.weather[0].description)
+
+        const bar = item.querySelector('.fc-bar')
+        const height = (forecast.main.temp - minTemp) / (maxTemp - minTemp) * 100
+        bar.setAttribute("style", `height: ${height}%; top: ${100 - height}%`)
+
+        const barTop = item.querySelector('.fc-bar-top');
+        barTop.setAttribute("style", `height: ${100 - height}%`)
+
+        container.appendChild(item)
+
+        // Delete the template
+        template.remove()
+    })
 }
 
 async function genWeather() {
