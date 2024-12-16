@@ -3,8 +3,10 @@
 Dashboard showing time, weather, and a webcam page.
 Built using Astro and Daisy UI.
 
-Utilizes [openweathermap.org](https://openweathermap.org) for fetching weather data.
-Utilizes [transform.tools](https://transform.tools/json-to-typescript) for openweathermap API typing.
+Utilizes [OpenWeatherMap.org](https://openweathermap.org) for fetching weather data.
+Utilizes [transform.tools](https://transform.tools/json-to-typescript) for OpenWeatherMap API typing.
+
+Initial favicon from [Wikimedia Commons](https://en.m.wikipedia.org/wiki/File:Icon-round-Question_mark.svg). Weather favicons (and weather icons) from OpenWeatherMap.
 
 ## 🧞 Commands
 

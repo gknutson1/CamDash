@@ -91,6 +91,10 @@ function parseOverview(data: WeatherOverview) {
     const windDirection = document.querySelector('.wind-direction')
     windDirection.setAttribute("style", `transform: rotate(${data.wind.deg}deg)`)
     windDirection.setAttribute("data", String(data.wind.deg))
+
+    const favicon = document.querySelector('.favicon');
+    favicon.setAttribute('href', `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`)
+    favicon.setAttribute('type', 'image/png')
 }
 
 const days = [
