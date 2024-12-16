@@ -9,12 +9,12 @@
 		<meta name="generator" content={Astro.generator} />
 		<title>Smart Mirror</title>
 	</head>
-	<body>
-	
-		<main class="body">
+	<body class="top-box">
+		<div class="buf"/>
+		<div class="body">
 			<slot />
-			<div class="toast" id="alerts"/>
-		</main>
-
+		</div>
+		<div class="buf"/>
+		<div class="toast" id="alerts"/>
 	</body>
 </html>
